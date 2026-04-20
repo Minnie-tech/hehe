@@ -1,0 +1,68 @@
+#hebbian 
+import numpy as np
+
+# Hebbian Learning Function
+def hebbian_learning(X, Y):
+    w = np.zeros(len(X[0]))
+    b = 0
+
+    for i in range(len(X)):
+        xi = X[i]
+        y = Y[i]
+
+        w = w + xi * y
+        b = b + y
+
+    return w, b
+
+
+# AND Gate (Bipolar)
+X_and = np.array([
+    [-1, -1],
+    [-1,  1],
+    [ 1, -1],
+    [ 1,  1]
+])
+
+Y_and = np.array([-1, -1, -1, 1])
+
+w_and, b_and = hebbian_learning(X_and, Y_and)
+
+print("AND Gate:")
+print("Weights:", w_and)
+print("Bias:", b_and)
+
+
+# OR Gate (Bipolar)
+X_or = np.array([
+    [-1, -1],
+    [-1,  1],
+    [ 1, -1],
+    [ 1,  1]
+])
+
+Y_or = np.array([-1, 1, 1, 1])
+
+w_or, b_or = hebbian_learning(X_or, Y_or)
+
+print("\nOR Gate:")
+print("Weights:", w_or)
+print("Bias:", b_or)
+
+
+# Prediction Function (Bipolar Output)
+def predict(x, w, b):
+    net = np.dot(x, w) + b
+    return 1 if net >= 0 else -1
+
+
+# Testing AND Gate
+print("\nTesting AND Gate:")
+for x in X_and:
+    print(x, "->", predict(x, w_and, b_and))
+
+
+# Testing OR Gate
+print("\nTesting OR Gate:")
+for x in X_or:
+    print(x, "->", predict(x, w_or, b_or))
