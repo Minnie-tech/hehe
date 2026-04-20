@@ -1,0 +1,39 @@
+#To implement support vector machine on the given dataset.
+
+
+import pandas as pd
+import numpy as np
+
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import MinMaxScaler
+from sklearn.svm import SVC
+from sklearn.metrics import accuracy_score, confusion_matrix
+
+# Load data
+df = pd.read_csv("diabetes.csv")
+
+# Features and target
+X = df.drop("Outcome", axis=1)
+y = df["Outcome"]
+
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, random_state=26, stratify=y
+)
+
+scaler = MinMaxScaler()
+
+X_train_scaled = scaler.fit_transform(X_train)
+X_test_scaled = scaler.transform(X_test)
+
+kernels = ['linear', 'rbf', 'poly', 'sigmoid']
+kernels_data = dict()
+for k in kernels:
+    model = SVC(kernel=k)
+    model.fit(X_train_scaled, y_train)
+    y_pred = model.predict(X_test_scaled)
+    kernels_data[k] = dict()
+    kernels_data[k]["Accuracy"] = accuracy_score(y_test, y_pred) * 100
+    kernels_data[k]["Conf_matrix"] = confusion_matrix(y_test, y_pred)
+
+kd = pd.DataFrame(kernels_data)
+print(kd)
