@@ -1,0 +1,35 @@
+#To study and implement Logistic Regression in Python.
+
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.linear_model import LogisticRegression
+
+# Sample dataset (Hours studied vs Pass/Fail)
+X = np.array([1, 2, 3, 4, 5, 6]).reshape(-1, 1)
+Y = np.array([0, 0, 0, 1, 1, 1])  # 0 = Fail, 1 = Pass
+
+# Create model
+model = LogisticRegression()
+
+# Train model
+model.fit(X, Y)
+
+# Predictions
+X_test = np.array([2.5, 3.5, 5.5]).reshape(-1, 1)
+predictions = model.predict(X_test)
+probabilities = model.predict_proba(X_test)
+
+print("Predictions:", predictions)
+print("Probabilities:\n", probabilities)
+
+# Plot sigmoid curve
+X_range = np.linspace(0, 7, 100).reshape(-1, 1)
+Y_prob = model.predict_proba(X_range)[:, 1]
+
+plt.scatter(X, Y, color='blue', label="Actual Data")
+plt.plot(X_range, Y_prob, color='red', label="Sigmoid Curve")
+plt.xlabel("Hours Studied")
+plt.ylabel("Probability of Passing")
+plt.legend()
+plt.title("Logistic Regression")
+plt.show()
