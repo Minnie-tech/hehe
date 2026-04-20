@@ -1,0 +1,44 @@
+# McCulloch-Pitts Model for AND and OR Gates
+
+# Step 1: Define MCP neuron
+def MCP_neuron(inputs, weights, threshold):
+    net = sum(i * w for i, w in zip(inputs, weights))
+    # Step function (activation)
+    if net >= threshold:
+        return 1
+    else:
+        return 0
+
+# Step 2: Define inputs (binary)
+inputs = [
+    [0, 0],
+    [0, 1],
+    [1, 0],
+    [1, 1]
+]
+
+# Step 3: AND Gate — weights [1,1], threshold = 2
+weights_and = [1, 1]
+threshold_and = 2
+
+# Step 4: OR Gate — weights [1,1], threshold = 1
+weights_or = [1, 1]
+threshold_or = 1
+
+# Step 5: Test AND Gate
+print("AND Gate using MCP Model:")
+print(f"{'Input':<15} {'Net Input':<15} {'Output'}")
+print("-" * 40)
+for i in inputs:
+    net = sum(a * b for a, b in zip(i, weights_and))
+    output = MCP_neuron(i, weights_and, threshold_and)
+    print(f"{str(i):<15} {net:<15} {output}")
+
+# Step 6: Test OR Gate
+print("\nOR Gate using MCP Model:")
+print(f"{'Input':<15} {'Net Input':<15} {'Output'}")
+print("-" * 40)
+for i in inputs:
+    net = sum(a * b for a, b in zip(i, weights_or))
+    output = MCP_neuron(i, weights_or, threshold_or)
+    print(f"{str(i):<15} {net:<15} {output}")
